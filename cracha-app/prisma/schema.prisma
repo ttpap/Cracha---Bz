@@ -1,0 +1,74 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model Empresa {
+  id            String         @id @default(cuid())
+  razaoSocial   String
+  nomeFantasia  String?
+  colaboradores Colaborador[]
+  createdAt     DateTime       @default(now())
+}
+
+model Colaborador {
+  id          String   @id @default(cuid())
+  empresa     Empresa  @relation(fields: [empresaId], references: [id])
+  empresaId   String
+
+  matricula   String?
+  nome        String
+  cpf         String?
+  email       String?
+  telefone    String?
+
+  cargo       String?
+  centroCusto String?
+
+  admissao    DateTime?
+  nascimento  DateTime?
+
+  enderecoRua    String?
+  enderecoBairro String?
+  enderecoCidade String?
+  enderecoUf     String?
+  enderecoCep    String?
+
+  fotoUrl     String?
+  descontoPct Int      @default(0) // % de desconto definido pelo admin
+  senha       String?  // opcional: login do colaborador por matricula+senha (alem de matricula+CPF)
+
+  qrToken     String   @unique
+  ativo       Boolean  @default(true)
+
+  visitas     Visita[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Restaurante {
+  id        String   @id @default(cuid())
+  nome      String
+  login     String   @unique
+  pin       String
+  visitas   Visita[]
+  createdAt DateTime @default(now())
+}
+
+model Visita {
+  id                  String      @id @default(cuid())
+  colaborador         Colaborador @relation(fields: [colaboradorId], references: [id])
+  colaboradorId       String
+  restaurante         Restaurante @relation(fields: [restauranteId], references: [id])
+  restauranteId       String
+
+  valorComDesconto    Float       // valor digitado pelo restaurante, ja com desconto
+  descontoAplicadoPct Int         @default(0) // snapshot do desconto na hora
+  observacao          String?
+
+  createdAt           DateTime    @default(now())
+}

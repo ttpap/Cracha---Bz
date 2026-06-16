@@ -1,0 +1,22 @@
+# ---- DADOS PESSOAIS (NÃO subir: CPF, endereço, fotos, banco) ----
+*.xls
+*.xlsx
+*.jpeg
+*.jpg
+*.png
+**/dev.db
+**/dev.db-journal
+cracha-app/public/fotos/
+
+# ---- Node / Next ----
+node_modules/
+.next/
+out/
+dist/
+build/
+
+# ---- Misc ----
+.env
+.env*.local
+.DS_Store
+*.log

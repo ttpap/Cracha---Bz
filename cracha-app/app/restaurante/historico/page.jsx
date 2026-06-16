@@ -2,6 +2,7 @@ import Link from "next/link";
 import { requireRestaurante } from "@/lib/auth";
 import { prisma } from "@/lib/db";
 import { formatMoney } from "@/lib/format";
+import Foto from "@/components/Foto";
 
 export const dynamic = "force-dynamic";
 
@@ -31,14 +32,7 @@ export default async function HistoricoPage() {
       <div className="grid gap-2">
         {visitas.map((v) => (
           <div key={v.id} className="card flex items-center gap-3 p-3">
-            {v.colaborador.fotoUrl ? (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img src={v.colaborador.fotoUrl} alt="" className="h-10 w-10 rounded-full object-cover" />
-            ) : (
-              <div className="flex h-10 w-10 items-center justify-center rounded-full bg-brand/10 text-sm font-bold text-brand">
-                {v.colaborador.nome[0]}
-              </div>
-            )}
+            <Foto src={v.colaborador.fotoUrl} nome={v.colaborador.nome} size={40} />
             <div className="min-w-0 flex-1">
               <div className="truncate font-medium">{v.colaborador.nome}</div>
               <div className="text-xs text-slate-400">

@@ -5,6 +5,7 @@ import { prisma } from "@/lib/db";
 import { colaboradorLogout } from "@/lib/actions";
 import ColaboradorLoginForm from "@/components/ColaboradorLoginForm";
 import QRCode from "@/components/QRCode";
+import Foto from "@/components/Foto";
 import { formatMoney, formatDate } from "@/lib/format";
 
 export const dynamic = "force-dynamic";
@@ -58,14 +59,7 @@ export default async function ColaboradorPage() {
           {c.empresa?.nomeFantasia || c.empresa?.razaoSocial}
         </div>
         <div className="flex flex-col items-center px-5 py-5">
-          {c.fotoUrl ? (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img src={c.fotoUrl} alt={c.nome} className="h-24 w-24 rounded-full border-4 border-brand/20 object-cover" />
-          ) : (
-            <div className="flex h-24 w-24 items-center justify-center rounded-full bg-brand/10 text-2xl font-bold text-brand">
-              {c.nome[0]}
-            </div>
-          )}
+          <Foto src={c.fotoUrl} nome={c.nome} size={96} className="border-4 border-brand/20" />
           <h2 className="mt-3 text-center text-lg font-bold leading-tight">{c.nome}</h2>
           <p className="text-sm text-slate-500">{c.cargo || "—"}</p>
           <p className="text-xs text-slate-400">Matrícula {c.matricula || "—"}</p>

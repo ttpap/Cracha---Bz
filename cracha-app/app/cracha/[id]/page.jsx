@@ -4,6 +4,7 @@ import Link from "next/link";
 import { prisma } from "@/lib/db";
 import QRCode from "@/components/QRCode";
 import PrintButton from "@/components/PrintButton";
+import Foto from "@/components/Foto";
 
 export const dynamic = "force-dynamic";
 
@@ -38,18 +39,7 @@ export default async function CrachaPage({ params }) {
         </div>
 
         <div className="flex flex-col items-center px-5 py-5">
-          {c.fotoUrl ? (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img
-              src={c.fotoUrl}
-              alt={c.nome}
-              className="h-28 w-28 rounded-full border-4 border-brand/20 object-cover"
-            />
-          ) : (
-            <div className="flex h-28 w-28 items-center justify-center rounded-full bg-brand/10 text-3xl font-bold text-brand">
-              {c.nome[0]}
-            </div>
-          )}
+          <Foto src={c.fotoUrl} nome={c.nome} size={112} className="border-4 border-brand/20" />
 
           <h1 className="mt-3 text-center text-lg font-bold leading-tight">{c.nome}</h1>
           <p className="text-center text-sm text-slate-500">{c.cargo || "—"}</p>

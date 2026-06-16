@@ -5,6 +5,7 @@ import { prisma } from "@/lib/db";
 import { salvarColaborador } from "@/lib/actions";
 import AdminNav from "@/components/AdminNav";
 import SubmitButton from "@/components/SubmitButton";
+import Foto from "@/components/Foto";
 import { formatDate, enderecoCompleto } from "@/lib/format";
 
 export const dynamic = "force-dynamic";
@@ -34,14 +35,7 @@ export default async function ColaboradorDetail({ params, searchParams }) {
         )}
 
         <div className="mt-3 flex items-center gap-4">
-          {c.fotoUrl ? (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img src={c.fotoUrl} alt={c.nome} className="h-20 w-20 rounded-full object-cover" />
-          ) : (
-            <div className="flex h-20 w-20 items-center justify-center rounded-full bg-brand/10 text-2xl font-bold text-brand">
-              {c.nome[0]}
-            </div>
-          )}
+          <Foto src={c.fotoUrl} nome={c.nome} size={80} />
           <div>
             <h1 className="text-xl font-bold">{c.nome}</h1>
             <p className="text-sm text-slate-500">{c.empresa?.razaoSocial}</p>

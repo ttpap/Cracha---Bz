@@ -2,6 +2,7 @@ import Link from "next/link";
 import { prisma } from "@/lib/db";
 import { getRestaurante } from "@/lib/auth";
 import RegistrarVisitaForm from "@/components/RegistrarVisitaForm";
+import Foto from "@/components/Foto";
 import { formatDate } from "@/lib/format";
 
 export const dynamic = "force-dynamic";
@@ -36,14 +37,7 @@ export default async function ScanLanding({ params }) {
           {c.empresa?.nomeFantasia || c.empresa?.razaoSocial}
         </div>
         <div className="flex flex-col items-center px-5 py-5">
-          {c.fotoUrl ? (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img src={c.fotoUrl} alt={c.nome} className="h-24 w-24 rounded-full object-cover" />
-          ) : (
-            <div className="flex h-24 w-24 items-center justify-center rounded-full bg-brand/10 text-2xl font-bold text-brand">
-              {c.nome[0]}
-            </div>
-          )}
+          <Foto src={c.fotoUrl} nome={c.nome} size={96} />
           <h1 className="mt-3 text-center text-lg font-bold leading-tight">{c.nome}</h1>
           <p className="text-sm text-slate-500">{c.cargo || "—"}</p>
           <p className="text-xs text-slate-400">

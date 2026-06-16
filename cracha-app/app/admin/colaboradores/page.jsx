@@ -2,6 +2,7 @@ import Link from "next/link";
 import { requireAdmin } from "@/lib/auth";
 import { prisma } from "@/lib/db";
 import AdminNav from "@/components/AdminNav";
+import Foto from "@/components/Foto";
 
 export const dynamic = "force-dynamic";
 
@@ -38,7 +39,7 @@ export default async function ColaboradoresPage() {
         <div className="grid gap-3">
           {colaboradores.map((c) => (
             <div key={c.id} className="card flex items-center gap-4 p-3">
-              <Avatar c={c} />
+              <Foto src={c.fotoUrl} nome={c.nome} size={56} />
               <div className="min-w-0 flex-1">
                 <div className="flex items-center gap-2">
                   <span className="truncate font-semibold">{c.nome}</span>
@@ -81,15 +82,3 @@ export default async function ColaboradoresPage() {
   );
 }
 
-function Avatar({ c }) {
-  if (c.fotoUrl) {
-    // eslint-disable-next-line @next/next/no-img-element
-    return <img src={c.fotoUrl} alt={c.nome} className="h-14 w-14 rounded-full object-cover" />;
-  }
-  const ini = c.nome.split(" ").slice(0, 2).map((s) => s[0]).join("");
-  return (
-    <div className="flex h-14 w-14 items-center justify-center rounded-full bg-brand/10 font-bold text-brand">
-      {ini}
-    </div>
-  );
-}

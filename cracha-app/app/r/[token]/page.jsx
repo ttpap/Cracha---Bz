@@ -3,6 +3,7 @@ import { prisma } from "@/lib/db";
 import { getRestaurante } from "@/lib/auth";
 import RegistrarVisitaForm from "@/components/RegistrarVisitaForm";
 import Foto from "@/components/Foto";
+import Logo from "@/components/Logo";
 import { formatDate } from "@/lib/format";
 
 export const dynamic = "force-dynamic";
@@ -33,7 +34,8 @@ export default async function ScanLanding({ params }) {
     <main className="mx-auto max-w-sm p-5">
       {/* Ficha do colaborador */}
       <div className="card overflow-hidden">
-        <div className="bg-brand px-5 py-2 text-center text-xs font-semibold uppercase tracking-wide text-white">
+        <div className="flex items-center justify-center gap-2 bg-brand-gradient px-5 py-2 text-xs font-semibold uppercase tracking-wide text-white">
+          <Logo size={22} ring />
           {c.empresa?.nomeFantasia || c.empresa?.razaoSocial}
         </div>
         <div className="flex flex-col items-center px-5 py-5">

@@ -3,6 +3,7 @@ import { getRestaurante } from "@/lib/auth";
 import { prisma } from "@/lib/db";
 import { restauranteLogout } from "@/lib/actions";
 import RestauranteLoginForm from "@/components/RestauranteLoginForm";
+import Logo from "@/components/Logo";
 import { formatMoney } from "@/lib/format";
 
 export const dynamic = "force-dynamic";
@@ -14,9 +15,7 @@ export default async function RestaurantePage() {
     return (
       <main className="mx-auto flex min-h-screen max-w-sm flex-col justify-center gap-6 p-6">
         <div className="text-center">
-          <div className="mx-auto mb-3 flex h-14 w-14 items-center justify-center rounded-2xl bg-brand text-2xl text-white">
-            🍽️
-          </div>
+          <Logo size={72} className="mx-auto mb-3 shadow-lg" />
           <h1 className="text-xl font-bold">Restaurante</h1>
           <p className="text-sm text-slate-500">Entre para escanear crachás</p>
         </div>

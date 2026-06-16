@@ -5,6 +5,7 @@ import { prisma } from "@/lib/db";
 import QRCode from "@/components/QRCode";
 import PrintButton from "@/components/PrintButton";
 import Foto from "@/components/Foto";
+import Logo from "@/components/Logo";
 
 export const dynamic = "force-dynamic";
 
@@ -32,7 +33,8 @@ export default async function CrachaPage({ params }) {
 
       {/* Crachá */}
       <div className="w-[340px] overflow-hidden rounded-2xl border border-slate-300 bg-white shadow-lg">
-        <div className="bg-brand px-5 py-3 text-center text-white">
+        <div className="flex items-center justify-center gap-2 bg-brand-gradient px-5 py-3 text-white">
+          <Logo size={28} ring />
           <div className="text-sm font-semibold uppercase tracking-wide">
             {c.empresa?.nomeFantasia || c.empresa?.razaoSocial}
           </div>

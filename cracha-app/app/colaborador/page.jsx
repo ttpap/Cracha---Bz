@@ -6,6 +6,7 @@ import { colaboradorLogout } from "@/lib/actions";
 import ColaboradorLoginForm from "@/components/ColaboradorLoginForm";
 import QRCode from "@/components/QRCode";
 import Foto from "@/components/Foto";
+import Logo from "@/components/Logo";
 import { formatMoney, formatDate } from "@/lib/format";
 
 export const dynamic = "force-dynamic";
@@ -17,9 +18,7 @@ export default async function ColaboradorPage() {
     return (
       <main className="mx-auto flex min-h-screen max-w-sm flex-col justify-center gap-6 p-6">
         <div className="text-center">
-          <div className="mx-auto mb-3 flex h-14 w-14 items-center justify-center rounded-2xl bg-brand text-2xl text-white">
-            🪪
-          </div>
+          <Logo size={72} className="mx-auto mb-3 shadow-lg" />
           <h1 className="text-xl font-bold">Colaborador</h1>
           <p className="text-sm text-slate-500">Acesse seu crachá e seus gastos</p>
         </div>
@@ -55,7 +54,8 @@ export default async function ColaboradorPage() {
 
       {/* Crachá digital */}
       <div className="mt-3 overflow-hidden rounded-2xl border border-slate-300 bg-white shadow">
-        <div className="bg-brand px-5 py-2 text-center text-xs font-semibold uppercase tracking-wide text-white">
+        <div className="flex items-center justify-center gap-2 bg-brand-gradient px-5 py-2 text-xs font-semibold uppercase tracking-wide text-white">
+          <Logo size={22} ring />
           {c.empresa?.nomeFantasia || c.empresa?.razaoSocial}
         </div>
         <div className="flex flex-col items-center px-5 py-5">

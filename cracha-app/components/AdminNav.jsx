@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { adminLogout } from "@/lib/actions";
+import Logo from "@/components/Logo";
 
 export default function AdminNav({ active }) {
   const items = [
@@ -12,7 +13,9 @@ export default function AdminNav({ active }) {
   return (
     <header className="sticky top-0 z-10 border-b border-slate-200 bg-white/90 backdrop-blur">
       <div className="mx-auto flex max-w-4xl items-center gap-1 overflow-x-auto px-4 py-3">
-        <span className="mr-2 shrink-0 font-bold text-brand">🛠️ Admin</span>
+        <span className="mr-2 flex shrink-0 items-center gap-1.5 font-bold text-brand">
+          <Logo size={26} /> Admin
+        </span>
         {items.map((it) => (
           <Link
             key={it.href}

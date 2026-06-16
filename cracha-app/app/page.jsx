@@ -1,12 +1,11 @@
 import Link from "next/link";
+import Logo from "@/components/Logo";
 
 export default function Home() {
   return (
     <main className="mx-auto flex min-h-screen max-w-md flex-col justify-center gap-6 p-6">
       <div className="text-center">
-        <div className="mx-auto mb-3 flex h-16 w-16 items-center justify-center rounded-2xl bg-brand text-3xl text-white">
-          🪪
-        </div>
+        <Logo size={88} className="mx-auto mb-3 shadow-lg" />
         <h1 className="text-2xl font-bold">Crachá Colaboradores</h1>
         <p className="mt-1 text-slate-500">
           Crachás com QR, desconto e registro de presença

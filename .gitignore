@@ -20,3 +20,6 @@ build/
 .env*.local
 .DS_Store
 *.log
+
+# logo da empresa (branding, pode ir pro git)
+!cracha-app/public/logo.jpeg

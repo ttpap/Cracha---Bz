@@ -29,11 +29,27 @@ body {
   @apply mb-1 block text-sm font-medium text-slate-600;
 }
 
+/* garante que o gradiente/cores do crachá saiam na impressão */
+.cracha-card {
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+
 @media print {
   .no-print {
     display: none !important;
   }
   body {
     background: white;
+  }
+  .cracha-screen {
+    display: none !important;
+  }
+  .cracha-print {
+    display: flex !important;
+  }
+  .cracha-print .cracha-card {
+    page-break-inside: avoid;
+    break-inside: avoid;
   }
 }

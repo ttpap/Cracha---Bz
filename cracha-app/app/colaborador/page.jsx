@@ -4,8 +4,7 @@ import { getColaborador } from "@/lib/auth";
 import { prisma } from "@/lib/db";
 import { colaboradorLogout } from "@/lib/actions";
 import ColaboradorLoginForm from "@/components/ColaboradorLoginForm";
-import QRCode from "@/components/QRCode";
-import Foto from "@/components/Foto";
+import Cracha from "@/components/Cracha";
 import Logo from "@/components/Logo";
 import { formatMoney, formatDate } from "@/lib/format";
 
@@ -41,6 +40,15 @@ export default async function ColaboradorPage() {
     _sum: { valorComDesconto: true },
   });
 
+  const dados = {
+    nome: c.nome,
+    cargo: c.cargo,
+    matricula: c.matricula,
+    fotoUrl: c.fotoUrl,
+    descontoPct: c.descontoPct,
+    empresaNome: c.empresa?.nomeFantasia || c.empresa?.razaoSocial,
+  };
+
   return (
     <main className="mx-auto max-w-sm p-5">
       <div className="flex items-center justify-between">
@@ -52,31 +60,9 @@ export default async function ColaboradorPage() {
         </form>
       </div>
 
-      {/* Crachá digital */}
-      <div className="mt-3 overflow-hidden rounded-2xl border border-slate-300 bg-white shadow">
-        <div className="flex items-center justify-center gap-2 bg-brand-gradient px-5 py-2 text-xs font-semibold uppercase tracking-wide text-white">
-          <Logo size={22} ring />
-          {c.empresa?.nomeFantasia || c.empresa?.razaoSocial}
-        </div>
-        <div className="flex flex-col items-center px-5 py-5">
-          <Foto src={c.fotoUrl} nome={c.nome} size={96} className="border-4 border-brand/20" />
-          <h2 className="mt-3 text-center text-lg font-bold leading-tight">{c.nome}</h2>
-          <p className="text-sm text-slate-500">{c.cargo || "—"}</p>
-          <p className="text-xs text-slate-400">Matrícula {c.matricula || "—"}</p>
-
-          {c.descontoPct > 0 && (
-            <div className="mt-3 rounded-full bg-emerald-100 px-3 py-1 text-sm font-bold text-emerald-700">
-              {c.descontoPct}% de desconto
-            </div>
-          )}
-
-          <div className="mt-4 rounded-xl border border-slate-200 p-2">
-            <QRCode value={scanUrl} size={170} />
-          </div>
-          <p className="mt-2 text-center text-[11px] text-slate-400">
-            Mostre este QR no restaurante
-          </p>
-        </div>
+      {/* Crachá digital (frente/verso) */}
+      <div className="mt-3">
+        <Cracha c={dados} scanUrl={scanUrl} />
       </div>
 
       {/* Resumo de gastos */}
@@ -95,6 +81,9 @@ export default async function ColaboradorPage() {
 
       <Link href="/colaborador/historico" className="btn-ghost mt-3 w-full">
         🧾 Ver meu histórico
+      </Link>
+      <Link href="/colaborador/senha" className="btn-ghost mt-2 w-full">
+        🔑 Trocar minha senha
       </Link>
 
       <div className="card mt-4 grid gap-1 p-4 text-sm">

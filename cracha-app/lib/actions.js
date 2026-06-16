@@ -72,7 +72,7 @@ export async function criarColaborador(_prev, formData) {
       cpf: String(formData.get("cpf") || "").trim() || null,
       email: String(formData.get("email") || "").trim() || null,
       telefone: String(formData.get("telefone") || "").trim() || null,
-      senha: String(formData.get("senha") || "").trim() || null,
+      senha: String(formData.get("senha") || "").trim() || SENHA_PADRAO,
       descontoPct: desconto,
       qrToken: crypto.randomBytes(9).toString("hex"),
     },
@@ -121,6 +121,7 @@ export async function importarPlanilha(_prev, formData) {
         ...c,
         empresaId: empresa.id,
         descontoPct: 0,
+        senha: SENHA_PADRAO,
         qrToken: crypto.randomBytes(9).toString("hex"),
       },
     });
@@ -171,20 +172,40 @@ export async function restauranteLogout() {
 /* ---------- COLABORADOR ---------- */
 
 const soDigitos = (s) => String(s || "").replace(/\D/g, "");
+const SENHA_PADRAO = "bz123";
 
+// Login do colaborador: CPF + senha (matrícula também aceita como identificador).
 export async function colaboradorLogin(_prev, formData) {
-  const matricula = String(formData.get("matricula") || "").trim();
-  const segredoRaw = String(formData.get("cpf") || "").trim();
-  if (!matricula || !segredoRaw) return { error: "Informe matrícula e CPF (ou senha)." };
+  const ident = String(formData.get("login") || "").trim();
+  const senha = String(formData.get("senha") || "").trim();
+  if (!ident || !senha) return { error: "Informe o CPF e a senha." };
 
-  const col = await prisma.colaborador.findFirst({ where: { matricula } });
-  const cpfOk = col?.cpf && soDigitos(col.cpf) === soDigitos(segredoRaw);
-  const senhaOk = col?.senha && col.senha === segredoRaw;
-  if (!col || (!cpfOk && !senhaOk)) {
-    return { error: "Matrícula ou CPF/senha não conferem." };
+  const identDigits = soDigitos(ident);
+  const todos = await prisma.colaborador.findMany({
+    select: { id: true, cpf: true, matricula: true, senha: true },
+  });
+  const col = todos.find(
+    (x) =>
+      (identDigits && x.cpf && soDigitos(x.cpf) === identDigits) ||
+      (x.matricula && x.matricula === ident)
+  );
+  const senhaOk = col && (col.senha || SENHA_PADRAO) === senha;
+  if (!col || !senhaOk) {
+    return { error: "CPF ou senha incorretos." };
   }
   (await cookies()).set("colaboradorId", col.id, COOKIE_OPTS);
   redirect("/colaborador");
+}
+
+export async function trocarSenhaColaborador(_prev, formData) {
+  const id = (await cookies()).get("colaboradorId")?.value;
+  if (!id) return { error: "Faça login primeiro." };
+  const nova = String(formData.get("nova") || "").trim();
+  const confirma = String(formData.get("confirma") || "").trim();
+  if (nova.length < 4) return { error: "A nova senha precisa ter pelo menos 4 caracteres." };
+  if (nova !== confirma) return { error: "As senhas não conferem." };
+  await prisma.colaborador.update({ where: { id }, data: { senha: nova } });
+  return { ok: true };
 }
 
 export async function colaboradorLogout() {
